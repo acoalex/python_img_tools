@@ -18,7 +18,10 @@ def convert_to_webp(path, quality):
                 with Image.open(image_path) as img:
                     # Define the destination path with .webp extension
                     webp_path = os.path.splitext(image_path)[0] + '.webp'
-                    
+                    if os.path.exists(webp_path):
+                        print(f'Skipping {image_path}, WebP version already exists.')
+                        continue  # Skip to the next file 
+
                     # Save the image in WebP format with the specified quality
                     img.save(webp_path, 'webp', quality=quality)
                     os.remove(image_path) 
