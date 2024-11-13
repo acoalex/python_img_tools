@@ -14,23 +14,27 @@ def convert_to_webp(path, quality):
                 # Full path of the image file
                 image_path = os.path.join(root, file)
 
-                # Open the image and convert it to WebP
-                with Image.open(image_path) as img:
-                    # Define the destination path with .webp extension
-                    webp_path = os.path.splitext(image_path)[0] + '.webp'
-                    if os.path.exists(webp_path):
-                        print(f'Skipping {image_path}, WebP version already exists.')
-                        continue  # Skip to the next file 
+                try:
+                    # Open the image and convert it to WebP
+                    with Image.open(image_path) as img:
+                        # Define the destination path with .webp extension
+                        webp_path = os.path.splitext(image_path)[0] + '.webp'
+                        if os.path.exists(webp_path):
+                            print(f'Skipping {image_path}, WebP version already exists.')
+                            continue  # Skip to the next file
 
-                    try:
-                        # Save the image in WebP format with the specified quality
-                        img.save(webp_path, 'webp', quality=quality)
-                        os.remove(image_path)
-                    except Exception as e:
-                        print(f'Error converting {image_path} to WebP: {e}')
-                        continue
+                        try:
+                            # Save the image in WebP format with the specified quality
+                            img.save(webp_path, 'webp', quality=quality)
+                            os.remove(image_path)
+                        except Exception as e:
+                            print(f'Error converting {image_path} to WebP: {e}')
+                            continue
 
-                print(f'Converted: {image_path} -> {webp_path}')
+                    print(f'Converted: {image_path} -> {webp_path}')
+                except Exception as e:
+                    print(f'Error opening {image_path}: {e}')
+                    continue
 
 if __name__ == "__main__":
     # Set up command-line argument parsing
