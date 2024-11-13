@@ -22,9 +22,14 @@ def convert_to_webp(path, quality):
                         print(f'Skipping {image_path}, WebP version already exists.')
                         continue  # Skip to the next file 
 
-                    # Save the image in WebP format with the specified quality
-                    img.save(webp_path, 'webp', quality=quality)
-                    os.remove(image_path) 
+                    try:
+                        # Save the image in WebP format with the specified quality
+                        img.save(webp_path, 'webp', quality=quality)
+                        os.remove(image_path)
+                    except Exception as e:
+                        print(f'Error converting {image_path} to WebP: {e}')
+                        continue
+
                 print(f'Converted: {image_path} -> {webp_path}')
 
 if __name__ == "__main__":
